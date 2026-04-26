@@ -188,7 +188,7 @@ The system is flexible, maintainable, and easy to extend.
 
 ---
 
-## 5. References (Optional)
+## 5. References
 
 * Python documentation: https://docs.python.org/3/
 * OOP concepts: https://realpython.com/python3-object-oriented-programming/
