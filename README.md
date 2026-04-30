@@ -1,195 +1,286 @@
-# Roman ↔ Decimal Converter System
+# Romėniškų ↔ Dešimtainių skaičių konvertavimo sistema
 
-## 1. Introduction
+## 1. Įvadas
 
-### What is this application?
+### Kas yra ši programa?
 
-This application is a Python-based system designed to convert numbers between **Roman numerals** and **decimal (integer) format**. It supports both conversion directions and provides optional step-by-step explanations of how the conversion is performed.
+Ši programa yra Python pagrindu sukurta sistema, skirta skaičių konvertavimui tarp **romėniškų skaitmenų** ir **dešimtainės (sveikųjų skaičių) sistemos**. Ji palaiko abipusį konvertavimą ir gali pateikti žingsnis po žingsnio paaiškinimus, kaip atliekamas skaičiavimas.
 
-### How to run the program
+---
 
-1. Make sure Python 3 is installed.
-2. Open a terminal in the project directory.
-3. Run the following command:
+### Kaip paleisti programą
+
+1. Įsitikinkite, kad įdiegtas Python 3.
+2. Atidarykite terminalą projekto aplanke.
+3. Paleiskite komandą:
 
 ```bash
 python app/main.py
 ```
 
-### How to use the program
+---
 
-* Choose conversion type:
+### Kaip naudotis programa
 
-  * `1` → Roman to Decimal
-  * `2` → Decimal to Roman
-* Choose whether to enable verbose mode (step-by-step explanation).
-* Enter values to convert.
-* Available commands:
+* Pasirinkite konvertavimo tipą:
 
-  * `history` → view previous conversions
-  * `save` → save history to file
-  * `load` → load history from file
-  * `quit` → exit program
+  * `1` → Romėniški → Dešimtainiai
+  * `2` → Dešimtainiai → Romėniški
+* Pasirinkite, ar rodyti žingsnius (verbose režimas).
+* Įveskite norimą skaičių.
+* Galimos komandos:
+
+  * `history` → peržiūrėti istoriją
+  * `save` → išsaugoti istoriją
+  * `load` → įkelti istoriją
+  * `quit` → išeiti iš programos
 
 ---
 
-## 2. Body / Analysis
+## 2. Analizė
 
-### Functional Requirements Implementation
+### Funkciniai reikalavimai
 
-The system fulfills the required functionality by:
+Sistema įgyvendina šias funkcijas:
 
-* Converting Roman numerals to decimal numbers
-* Converting decimal numbers to Roman numerals
-* Validating user input before conversion
-* Storing conversion history
-* Saving and loading data from CSV files
-* Providing an interactive command-line interface
+* Romėniškų skaičių konvertavimas į dešimtainius
+* Dešimtainių skaičių konvertavimas į romėniškus
+* Įvesties validacija
+* Konvertavimo istorijos saugojimas
+* Duomenų įrašymas ir nuskaitymas iš CSV failų
+* Komandinės eilutės sąsaja (CLI)
 
 ---
 
-### Object-Oriented Programming Principles
+### Objektinio programavimo principai
 
-#### 1. Abstraction
+#### 1. Abstrakcija
 
-Abstraction is implemented using the `BaseConverter` abstract class.
-It defines the interface for all converters:
+Abstrakcija realizuota naudojant `BaseConverter` abstrakčią klasę, kuri apibrėžia bendrą sąsają:
 
 * `convert()`
 * `validate()`
 
-This ensures all converter classes follow a consistent structure.
+---
+
+#### 2. Inkapsuliacija
+
+Duomenys slepiami klasėse:
+
+* `_roman_values` – romėniškų reikšmių žodynas
+* `_decimal_map` – konvertavimo lentelė
+* `_entries` – istorijos įrašai
 
 ---
 
-#### 2. Encapsulation
+#### 3. Paveldėjimas
 
-Encapsulation is used by hiding internal data inside classes:
+Paveldėjimas naudojamas funkcionalumui plėsti:
 
-* `_roman_values` dictionary
-* `_decimal_map` list
-* `_entries` in history
-
-These are accessed only through class methods, protecting internal logic.
+* `VerboseRomanToDecimalConverter` paveldi `RomanToDecimalConverter`
+* `VerboseDecimalToRomanConverter` paveldi `DecimalToRomanConverter`
 
 ---
 
-#### 3. Inheritance
+#### 4. Polimorfizmas
 
-Inheritance is used to extend functionality:
-
-* `VerboseRomanToDecimalConverter` inherits from `RomanToDecimalConverter`
-* `VerboseDecimalToRomanConverter` inherits from `DecimalToRomanConverter`
-
-This allows reuse of logic while adding new behavior (step-by-step explanation).
-
----
-
-#### 4. Polymorphism
-
-Polymorphism is demonstrated when different converter objects are used through a single interface:
+Polimorfizmas leidžia naudoti bendrą sąsają:
 
 ```python
 converter.convert(value)
 ```
 
-The program does not need to know which specific converter class is used.
+Nepriklausomai nuo konkrečios klasės.
 
 ---
 
-### Design Pattern: Factory Method
+### Dizaino šablonas: Factory Method
 
-The system uses the **Factory Method pattern** via `ConverterFactory`.
+Naudojamas `ConverterFactory`.
 
-#### Why Factory Method?
+Privalumai:
 
-* It hides object creation logic from the user
-* Makes the system more flexible
-* Allows easy addition of new converter types
+* Slėpia objektų kūrimo logiką
+* Palengvina sistemos plėtimą
+* Pagerina kodo lankstumą
 
-Example:
+---
+
+### Kompozicija ir agregacija
+
+**Kompozicija:**
+
+* `ConversionSession` valdo konverterį ir istoriją
+
+**Agregacija:**
+
+* `ConversionHistory` gali egzistuoti atskirai
+
+---
+
+### Failų valdymas
+
+* Istorija išsaugoma CSV formatu
+* Istorija įkeliama iš CSV failo
+
+---
+
+### Testavimas
+
+Naudojamas `unittest`:
+
+* Konversijų tikrinimas
+* Validacija
+* Factory testavimas
+* Sesijos logikos testai
+
+---
+
+## 3. Rezultatai
+
+* Sistema sėkmingai konvertuoja skaičius abiem kryptimis
+* Įvesties validacija apsaugo nuo klaidų
+* Verbose režimas pagerina supratimą
+* Didžiausias iššūkis – romėniškų skaičių atimties taisyklės
+
+---
+
+## 4. Išvados
+
+Projektas demonstruoja objektinio programavimo principų taikymą Python kalboje.
+
+### Pasiekimai
+
+* Įgyvendinti visi OOP principai
+* Pritaikytas Factory Method šablonas
+* Sukurta CLI programa
+* Realizuotas failų saugojimas ir testavimas
+
+### Ateities tobulinimai
+
+* Grafinė sąsaja (GUI)
+* Platesnis skaičių intervalas
+* Patobulinta validacija
+* JSON eksportas
+
+---
+
+## 5. Literatūra
+
+* [https://docs.python.org/3/](https://docs.python.org/3/)
+* [https://realpython.com/python3-object-oriented-programming/](https://realpython.com/python3-object-oriented-programming/)
+* [https://refactoring.guru/design-patterns](https://refactoring.guru/design-patterns)
+
+---
+
+# 6. Kodo fragmentas (OOP įgyvendinimas)
+
+Žemiau pateikiamas svarbiausias sistemos kodo fragmentas, demonstruojantis **abstrakciją, paveldėjimą ir inkapsuliaciją**:
 
 ```python
-converter = ConverterFactory.create("rtd", verbose=True)
-```
+from abc import ABC, abstractmethod
 
----
+# ABSTRAKCIJA
+class BaseConverter(ABC):
 
-### Composition and Aggregation
+    @abstractmethod
+    def convert(self, value: str) -> str:
+        pass
 
-#### Composition
+    @abstractmethod
+    def validate(self, value: str) -> bool:
+        pass
 
-* `ConversionSession` contains a converter and history
-* These objects exist only within the session
 
-#### Aggregation
+# INKAPSULIACIJA + KONKRETUS REALIZAVIMAS
+class RomanToDecimalConverter(BaseConverter):
 
-* `ConversionHistory` can exist independently
-* It can be reused or loaded from external sources
+    _roman_values = {
+        "I": 1, "V": 5, "X": 10,
+        "L": 50, "C": 100, "D": 500, "M": 1000
+    }
 
----
+    def validate(self, value: str) -> bool:
+        return all(ch in self._roman_values for ch in value.upper())
 
-### File Handling
+    def convert(self, value: str) -> str:
+        roman = value.upper()
+        result = 0
+        prev = 0
 
-The program supports:
+        for ch in reversed(roman):
+            curr = self._roman_values[ch]
+            if curr < prev:
+                result -= curr
+            else:
+                result += curr
+            prev = curr
 
-* Saving history to a CSV file
-* Loading history from a CSV file
+        return str(result)
 
-This is implemented using standard file operations in Python.
 
----
+\\\\\\\
 
-### Testing
+classDiagram
 
-Core functionality is tested using the `unittest` framework:
+class BaseConverter {
+    <<abstract>>
+    +convert(value: str) str
+    +validate(value: str) bool
+}
 
-* Conversion correctness
-* Input validation
-* Factory behavior
-* Session and history logic
+class RomanToDecimalConverter {
+    -_roman_values: dict
+    +convert(value: str) str
+    +validate(value: str) bool
+}
 
-Tests can be run using:
+class DecimalToRomanConverter {
+    -_decimal_map: list
+    +convert(value: str) str
+    +validate(value: str) bool
+}
 
-```bash
-python -m unittest
-```
+class VerboseRomanToDecimalConverter {
+    +convert(value: str) str
+}
 
----
+class VerboseDecimalToRomanConverter {
+    +convert(value: str) str
+}
 
-## 3. Results
+class ConverterFactory {
+    +create(mode: str, verbose: bool) BaseConverter
+}
 
-* The system successfully converts values between Roman and decimal formats.
-* Input validation prevents incorrect or invalid data.
-* The verbose mode improves understanding of conversion logic.
-* One challenge was handling Roman numeral subtraction rules correctly.
-* The modular design made the code easier to extend and maintain.
+class ConversionSession {
+    -_converter: BaseConverter
+    -_history: ConversionHistory
+    +run(value: str) str
+    +get_history() list
+}
 
----
+class ConversionHistory {
+    -_entries: list
+    +add(input, output)
+    +clear()
+}
 
-## 4. Conclusions
+class ConverterApp {
+    +run_interactive()
+    +save_history()
+    +load_history()
+}
 
-This project demonstrates the practical use of object-oriented programming principles in Python.
-The system is flexible, maintainable, and easy to extend.
+BaseConverter <|-- RomanToDecimalConverter
+BaseConverter <|-- DecimalToRomanConverter
+RomanToDecimalConverter <|-- VerboseRomanToDecimalConverter
+DecimalToRomanConverter <|-- VerboseDecimalToRomanConverter
 
-### Achievements
+ConversionSession --> BaseConverter
+ConversionSession --> ConversionHistory
+ConverterFactory --> BaseConverter
+ConverterApp --> ConversionSession
+ConverterApp --> ConverterFactory
 
-* Implemented all OOP principles
-* Applied a design pattern (Factory Method)
-* Built a working CLI application
-* Added file persistence and testing
 
-### Future Improvements
-
-* Add a graphical user interface (GUI)
-* Support larger number ranges
-* Improve Roman numeral validation rules
-* Add more export formats (e.g., JSON)
-
----
-
-## 5. References
-
-* Python documentation: https://docs.python.org/3/
-* OOP concepts: https://realpython.com/python3-object-oriented-programming/
-* Design patterns: https://refactoring.guru/design-patterns
