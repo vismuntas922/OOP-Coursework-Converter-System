@@ -173,7 +173,7 @@ Projektas demonstruoja objektinio programavimo principų taikymą Python kalboje
 
 ---
 
-# 6. Kodo fragmentas (OOP įgyvendinimas)
+# 6. Kodo fragmentai (OOP įgyvendinimas)
 
 Žemiau pateikiu svarbiausias sistemos kodo fragmentus, demonstruojančius **abstrakciją, paveldėjimą ir inkapsuliaciją**:
 
