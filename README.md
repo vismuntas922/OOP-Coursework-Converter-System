@@ -175,7 +175,7 @@ Projektas demonstruoja objektinio programavimo principų taikymą Python kalboje
 
 # 6. Kodo fragmentas (OOP įgyvendinimas)
 
-Žemiau pateikiamas svarbiausias sistemos kodo fragmentas, demonstruojantis **abstrakciją, paveldėjimą ir inkapsuliaciją**:
+Žemiau pateikiu svarbiausias sistemos kodo fragmentus, demonstruojančius **abstrakciją, paveldėjimą ir inkapsuliaciją**:
 
 ```python
 from abc import ABC, abstractmethod
@@ -217,70 +217,5 @@ class RomanToDecimalConverter(BaseConverter):
             prev = curr
 
         return str(result)
-
-
-\\\\\\\
-
-classDiagram
-
-class BaseConverter {
-    <<abstract>>
-    +convert(value: str) str
-    +validate(value: str) bool
-}
-
-class RomanToDecimalConverter {
-    -_roman_values: dict
-    +convert(value: str) str
-    +validate(value: str) bool
-}
-
-class DecimalToRomanConverter {
-    -_decimal_map: list
-    +convert(value: str) str
-    +validate(value: str) bool
-}
-
-class VerboseRomanToDecimalConverter {
-    +convert(value: str) str
-}
-
-class VerboseDecimalToRomanConverter {
-    +convert(value: str) str
-}
-
-class ConverterFactory {
-    +create(mode: str, verbose: bool) BaseConverter
-}
-
-class ConversionSession {
-    -_converter: BaseConverter
-    -_history: ConversionHistory
-    +run(value: str) str
-    +get_history() list
-}
-
-class ConversionHistory {
-    -_entries: list
-    +add(input, output)
-    +clear()
-}
-
-class ConverterApp {
-    +run_interactive()
-    +save_history()
-    +load_history()
-}
-
-BaseConverter <|-- RomanToDecimalConverter
-BaseConverter <|-- DecimalToRomanConverter
-RomanToDecimalConverter <|-- VerboseRomanToDecimalConverter
-DecimalToRomanConverter <|-- VerboseDecimalToRomanConverter
-
-ConversionSession --> BaseConverter
-ConversionSession --> ConversionHistory
-ConverterFactory --> BaseConverter
-ConverterApp --> ConversionSession
-ConverterApp --> ConverterFactory
 
 
